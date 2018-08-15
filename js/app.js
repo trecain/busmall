@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var arrayOfRandomlyGeneratedNumbers = [];
 var numberOfClicks = 0;
@@ -10,33 +10,33 @@ function genratesARandomNumber(min, max) {
 function Product(productName, type) {
   this.productName = productName;
   this.type = type;
-  this.path = "images/" + this.productName + this.type;
+  this.path = 'images/' + this.productName + this.type;
   this.numberOfTimesImageIsDisplayed = 0;
   this.numberOfTimesImageWasClickedByUser = 0;
   Product.arrayOfProductInstances.push(this);
 }
 Product.arrayOfProductInstances = [];
 
-new Product("bag", ".jpg");
-new Product("banana", ".jpg");
-new Product("bathroom", ".jpg");
-new Product("boots", ".jpg");
-new Product("breakfast", ".jpg");
-new Product("bubblegum", ".jpg");
-new Product("chair", ".jpg");
-new Product("cthulhu", ".jpg");
-new Product("dog-duck", ".jpg");
-new Product("dragon", ".jpg");
-new Product("pen", ".jpg");
-new Product("pet-sweep", ".jpg");
-new Product("scissors", ".jpg");
-new Product("shark", ".jpg");
-new Product("sweep", ".png");
-new Product("tauntaun", ".jpg");
-new Product("unicorn", ".jpg");
-new Product("usb", ".gif");
-new Product("water-can", ".jpg");
-new Product("wine-glass", ".jpg");
+new Product('bag', '.jpg');
+new Product('banana', '.jpg');
+new Product('bathroom', '.jpg');
+new Product('boots', '.jpg');
+new Product('breakfast', '.jpg');
+new Product('bubblegum', '.jpg');
+new Product('chair', '.jpg');
+new Product('cthulhu', '.jpg');
+new Product('dog-duck', '.jpg');
+new Product('dragon', '.jpg');
+new Product('pen', '.jpg');
+new Product('pet-sweep', '.jpg');
+new Product('scissors', '.jpg');
+new Product('shark', '.jpg');
+new Product('sweep', '.png');
+new Product('tauntaun', '.jpg');
+new Product('unicorn', '.jpg');
+new Product('usb', '.gif');
+new Product('water-can', '.jpg');
+new Product('wine-glass', '.jpg');
 
 function helpsGenerateThreeRandomNumbers() {
   for (var i = 0; i < 3; i++) {
@@ -63,9 +63,9 @@ function helpsGenerateThreeRandomNumbers() {
   }
 }
 
-var firstRenderedImage = document.getElementById("imageFirst");
-var secondRenderedImage = document.getElementById("imageSecond");
-var thirdRenderedImage = document.getElementById("imageThird");
+var firstRenderedImage = document.getElementById('imageFirst');
+var secondRenderedImage = document.getElementById('imageSecond');
+var thirdRenderedImage = document.getElementById('imageThird');
 function displayThreeRandomlyGeneratedImages() {
   var imagesToBeRenderedArray = [
     firstRenderedImage,
@@ -74,7 +74,7 @@ function displayThreeRandomlyGeneratedImages() {
   ];
   helpsGenerateThreeRandomNumbers();
   imagesToBeRenderedArray.forEach(function(image, index) {
-    console.log("idx: ", index);
+    console.log('idx: ', index);
     image.src =
       Product.arrayOfProductInstances[
         arrayOfRandomlyGeneratedNumbers[index]
@@ -96,35 +96,35 @@ function handlesImageClicksByUser(event) {
       Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser++;
       numberOfClicks++;
     }
-    console.log("nums ", numberOfClicks);
+    console.log('nums ', numberOfClicks);
   }
   if (numberOfClicks < 25) {
     displayThreeRandomlyGeneratedImages();
   } else if (numberOfClicks === 25) {
-    document.getElementById("displayed-images").style.display = "none";
-    document.getElementById("show-chart").style.display = "flex";
-    document.getElementById("ten-more").style.display = "flex";
-    document.getElementById("lcClear").style.display = "flex";
+    document.getElementById('displayed-images').style.display = 'none';
+    document.getElementById('show-chart').style.display = 'flex';
+    document.getElementById('ten-more').style.display = 'flex';
+    document.getElementById('lcClear').style.display = 'flex';
   }
 }
 
 function clickButtonHandler(event) {
-  document.getElementById("show-chart").style.display = "none";
-  document.getElementById("ten-more").style.display = "none";
-  document.getElementById("cust-chart").style.display = "none";
-  document.getElementById("lcClear").style.display = "none";
-  document.getElementById("displayed-images").style.display = "flex";
+  document.getElementById('show-chart').style.display = 'none';
+  document.getElementById('ten-more').style.display = 'none';
+  document.getElementById('cust-chart').style.display = 'none';
+  document.getElementById('lcClear').style.display = 'none';
+  document.getElementById('displayed-images').style.display = 'flex';
   numberOfClicks = 15;
 }
 
 function makeChart() {
   var productNames = [];
   var percents = [];
-  document.getElementById("displayed-images").style.display = "none";
-  document.getElementById("second-logo").style.display = "flex";
-  document.getElementById("cust-chart").style.display = "flex";
-  document.getElementById("btnss").style.display = "none";
-  document.getElementById("top").style.display = "none";
+  document.getElementById('displayed-images').style.display = 'none';
+  document.getElementById('second-logo').style.display = 'flex';
+  document.getElementById('cust-chart').style.display = 'flex';
+  document.getElementById('btnss').style.display = 'none';
+  document.getElementById('top').style.display = 'none';
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     productNames.push(Product.arrayOfProductInstances[i].productName);
     percents.push(
@@ -138,26 +138,26 @@ function makeChart() {
       {
         data: percents,
         backgroundColor: [
-          "red",
-          "orange",
-          "yellow",
-          "green",
-          "blue",
-          "indigo",
-          "violet",
-          "#790e08",
-          "#7d443d",
-          "#89a5bb",
-          "#ab831b",
-          "#ead83c",
-          "#22d7a5",
-          "#760567",
-          "#52f6bf",
-          "#30a702",
-          "#534317",
-          "#cf7e0b",
-          "#3017ec",
-          "#4f7c9a"
+          'red',
+          'orange',
+          'yellow',
+          'green',
+          'blue',
+          'indigo',
+          'violet',
+          '#790e08',
+          '#7d443d',
+          '#89a5bb',
+          '#ab831b',
+          '#ead83c',
+          '#22d7a5',
+          '#760567',
+          '#52f6bf',
+          '#30a702',
+          '#534317',
+          '#cf7e0b',
+          '#3017ec',
+          '#4f7c9a'
         ],
         hoverBackgroundColor: []
       }
@@ -165,10 +165,10 @@ function makeChart() {
   };
 
   var chartForImagesChosenByUser = document
-    .getElementById("cust-chart")
-    .getContext("2d");
+    .getElementById('cust-chart')
+    .getContext('2d');
   var myChart = new Chart(chartForImagesChosenByUser, {
-    type: "bar",
+    type: 'bar',
     data: data,
     options: {
       responsive: true,
@@ -178,18 +178,18 @@ function makeChart() {
 }
 
 
-var clickEventForDisplayeImages = document.getElementById("displayed-images");
-clickEventForDisplayeImages.addEventListener("click", handlesImageClicksByUser);
+var clickEventForDisplayeImages = document.getElementById('displayed-images');
+clickEventForDisplayeImages.addEventListener('click', handlesImageClicksByUser);
 
-var clickEventForChartToBeShown = document.getElementById("show-chart");
-clickEventForChartToBeShown.addEventListener("click", makeChart);
+var clickEventForChartToBeShown = document.getElementById('show-chart');
+clickEventForChartToBeShown.addEventListener('click', makeChart);
 
-var clickEventForTenMoreButton = document.getElementById("ten-more");
-clickEventForTenMoreButton.addEventListener("click", clickButtonHandler);
+var clickEventForTenMoreButton = document.getElementById('ten-more');
+clickEventForTenMoreButton.addEventListener('click', clickButtonHandler);
 
-document.getElementById("show-chart").style.display = "none";
-document.getElementById("ten-more").style.display = "none";
-document.getElementById("lcClear").style.display = "none";
-document.getElementById("second-logo").style.display = "none";
+document.getElementById('show-chart').style.display = 'none';
+document.getElementById('ten-more').style.display = 'none';
+document.getElementById('lcClear').style.display = 'none';
+document.getElementById('second-logo').style.display = 'none';
 
 displayThreeRandomlyGeneratedImages();
