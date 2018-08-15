@@ -1,11 +1,14 @@
 'use strict';
 
+
 var arrayOfRandomlyGeneratedNumbers = [];
 var numberOfClicks = 0;
+
 
 function genratesARandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 
 function Product(productName, type) {
   this.productName = productName;
@@ -16,6 +19,7 @@ function Product(productName, type) {
   Product.arrayOfProductInstances.push(this);
 }
 Product.arrayOfProductInstances = [];
+
 
 new Product('bag', '.jpg');
 new Product('banana', '.jpg');
@@ -38,34 +42,27 @@ new Product('usb', '.gif');
 new Product('water-can', '.jpg');
 new Product('wine-glass', '.jpg');
 
+
 function helpsGenerateThreeRandomNumbers() {
   for (var i = 0; i < 3; i++) {
-    arrayOfRandomlyGeneratedNumbers.push(
-      genratesARandomNumber(0, Product.arrayOfProductInstances.length)
-    );
+    arrayOfRandomlyGeneratedNumbers.push(genratesARandomNumber(0, Product.arrayOfProductInstances.length));
   }
-  while (
-    arrayOfRandomlyGeneratedNumbers[1] === arrayOfRandomlyGeneratedNumbers[0]
-  ) {
-    arrayOfRandomlyGeneratedNumbers[1] = genratesARandomNumber(
-      0,
-      Product.arrayOfProductInstances.length
-    );
+  while (arrayOfRandomlyGeneratedNumbers[1] === arrayOfRandomlyGeneratedNumbers[0]) {
+    arrayOfRandomlyGeneratedNumbers[1] = genratesARandomNumber(0,Product.arrayOfProductInstances.length);
   }
   while (
     arrayOfRandomlyGeneratedNumbers[2] === arrayOfRandomlyGeneratedNumbers[1] ||
-    arrayOfRandomlyGeneratedNumbers[2] === arrayOfRandomlyGeneratedNumbers[0]
-  ) {
-    arrayOfRandomlyGeneratedNumbers[2] = genratesARandomNumber(
-      0,
-      Product.arrayOfProductInstances.length
-    );
+    arrayOfRandomlyGeneratedNumbers[2] === arrayOfRandomlyGeneratedNumbers[0]) {
+    arrayOfRandomlyGeneratedNumbers[2] = genratesARandomNumber(0, Product.arrayOfProductInstances.length);
   }
 }
+
 
 var firstRenderedImage = document.getElementById('imageFirst');
 var secondRenderedImage = document.getElementById('imageSecond');
 var thirdRenderedImage = document.getElementById('imageThird');
+
+
 function displayThreeRandomlyGeneratedImages() {
   var imagesToBeRenderedArray = [
     firstRenderedImage,
@@ -74,41 +71,32 @@ function displayThreeRandomlyGeneratedImages() {
   ];
   helpsGenerateThreeRandomNumbers();
   imagesToBeRenderedArray.forEach(function(image, index) {
-    console.log('idx: ', index);
-    image.src =
-      Product.arrayOfProductInstances[
-        arrayOfRandomlyGeneratedNumbers[index]
-      ].path;
-    image.id =
-      Product.arrayOfProductInstances[
-        arrayOfRandomlyGeneratedNumbers[index]
-      ].productName;
+    image.src = Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].path;
+    image.id = Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].productName;
     Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].numberOfTimesImageIsDisplayed++;
   });
   arrayOfRandomlyGeneratedNumbers = [];
-  console.log(Product.arrayOfProductInstances.numberOfTimesImageIsDisplayed);
 }
 
 function handlesImageClicksByUser(event) {
-  var targetEl = event.target;
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     if (Product.arrayOfProductInstances[i].productName === event.target.id) {
       Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser++;
       numberOfClicks++;
     }
-    console.log('nums ', numberOfClicks);
   }
   if (numberOfClicks < 25) {
     displayThreeRandomlyGeneratedImages();
   } else if (numberOfClicks === 25) {
     document.getElementById('displayed-images').style.display = 'none';
     document.getElementById('show-chart').style.display = 'flex';
-    document.getElementById('ten-more').style.display = 'flex';
-    document.getElementById('lcClear').style.display = 'flex';
+    // document.getElementById('ten-more').style.display = 'flex';
+    // document.getElementById('lcClear').style.display = 'flex';
   }
 }
 
-function clickButtonHandler(event) {
+
+function clickButtonHandler() {
   document.getElementById('show-chart').style.display = 'none';
   document.getElementById('ten-more').style.display = 'none';
   document.getElementById('cust-chart').style.display = 'none';
@@ -117,25 +105,26 @@ function clickButtonHandler(event) {
   numberOfClicks = 15;
 }
 
+
 function makeChart() {
   var productNames = [];
   var percents = [];
   document.getElementById('displayed-images').style.display = 'none';
-  document.getElementById('second-logo').style.display = 'flex';
+  // document.getElementById('second-logo').style.display = 'flex';
   document.getElementById('cust-chart').style.display = 'flex';
-  document.getElementById('btnss').style.display = 'none';
-  document.getElementById('top').style.display = 'none';
+  // document.getElementById('btnss').style.display = 'none';
+  // document.getElementById('top').style.display = 'none';
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     productNames.push(Product.arrayOfProductInstances[i].productName);
-    percents.push(
-      Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser
-    );
+    percents.push(Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser);
   }
+
 
   var data = {
     labels: productNames,
     datasets: [
       {
+        label: '# of participant votes',
         data: percents,
         backgroundColor: [
           'red',
@@ -164,10 +153,9 @@ function makeChart() {
     ]
   };
 
-  var chartForImagesChosenByUser = document
-    .getElementById('cust-chart')
-    .getContext('2d');
-  var myChart = new Chart(chartForImagesChosenByUser, {
+
+  var chartForImagesChosenByUser = document.getElementById('cust-chart').getContext('2d');
+  new Chart(chartForImagesChosenByUser, {
     type: 'bar',
     data: data,
     options: {
@@ -184,12 +172,12 @@ clickEventForDisplayeImages.addEventListener('click', handlesImageClicksByUser);
 var clickEventForChartToBeShown = document.getElementById('show-chart');
 clickEventForChartToBeShown.addEventListener('click', makeChart);
 
-var clickEventForTenMoreButton = document.getElementById('ten-more');
-clickEventForTenMoreButton.addEventListener('click', clickButtonHandler);
+// var clickEventForTenMoreButton = document.getElementById('ten-more');
+// clickEventForTenMoreButton.addEventListener('click', clickButtonHandler);
 
 document.getElementById('show-chart').style.display = 'none';
-document.getElementById('ten-more').style.display = 'none';
-document.getElementById('lcClear').style.display = 'none';
-document.getElementById('second-logo').style.display = 'none';
+// document.getElementById('ten-more').style.display = 'none';
+// document.getElementById('lcClear').style.display = 'none';
+// document.getElementById('second-logo').style.display = 'none';
 
 displayThreeRandomlyGeneratedImages();
