@@ -175,7 +175,7 @@ clickEventForChartToBeShown.addEventListener('click', makeChart);
 // var clickEventForTenMoreButton = document.getElementById('ten-more');
 // clickEventForTenMoreButton.addEventListener('click', clickButtonHandler);
 
-document.getElementById('show-chart').style.display = 'none';
+document.getElementById('cust-chart').style.display = 'none';
 // document.getElementById('ten-more').style.display = 'none';
 // document.getElementById('lcClear').style.display = 'none';
 // document.getElementById('second-logo').style.display = 'none';
