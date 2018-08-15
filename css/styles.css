@@ -1,18 +1,4 @@
-.red {
-    border: 2px solid red;
-}
-
-.pink {
-    border: 2px solid pink;
-}
-
-.green {
-    border: 2px solid green;
-}
-
-
-
-/* body {
+body {
     background-color: white;
     color: #00b6ff;
     font-style: normal;
@@ -67,7 +53,7 @@
 .imgDiv img {
     margin-right: 50px;
     margin-top: 20px;
-} 
+}
 
 .canvas {
     display: flex;
@@ -142,4 +128,4 @@ hr:before {
 
 span {
     color: white;
-} */
+}
