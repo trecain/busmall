@@ -74,7 +74,6 @@ function displayThreeRandomlyGeneratedImages() {
   ];
   helpsGenerateThreeRandomNumbers();
   imagesToBeRenderedArray.forEach(function(image, index) {
-    console.log('idx: ', index);
     image.src =
       Product.arrayOfProductInstances[
         arrayOfRandomlyGeneratedNumbers[index]
@@ -86,17 +85,14 @@ function displayThreeRandomlyGeneratedImages() {
     Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].numberOfTimesImageIsDisplayed++;
   });
   arrayOfRandomlyGeneratedNumbers = [];
-  console.log(Product.arrayOfProductInstances.numberOfTimesImageIsDisplayed);
 }
 
 function handlesImageClicksByUser(event) {
-  var targetEl = event.target;
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     if (Product.arrayOfProductInstances[i].productName === event.target.id) {
       Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser++;
       numberOfClicks++;
     }
-    console.log('nums ', numberOfClicks);
   }
   if (numberOfClicks < 25) {
     displayThreeRandomlyGeneratedImages();
@@ -128,6 +124,7 @@ function makeChart() {
     labels: productNames,
     datasets: [
       {
+        label: '# of Votes',
         data: percents,
         backgroundColor: [
           'red',
@@ -159,7 +156,7 @@ function makeChart() {
   var chartForImagesChosenByUser = document
     .getElementById('cust-chart')
     .getContext('2d');
-  var myChart = new Chart(chartForImagesChosenByUser, {
+  new Chart(chartForImagesChosenByUser, {
     type: 'bar',
     data: data,
     options: {
