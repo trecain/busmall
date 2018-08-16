@@ -1,11 +1,14 @@
 'use strict';
 
+
 var arrayOfRandomlyGeneratedNumbers = [];
 var numberOfClicks = 0;
 
-function genratesARandomNumber(min, max) {
+
+function generatesARandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 
 function Product(productName, type) {
   this.productName = productName;
@@ -16,6 +19,7 @@ function Product(productName, type) {
   Product.arrayOfProductInstances.push(this);
 }
 Product.arrayOfProductInstances = [];
+
 
 new Product('bag', '.jpg');
 new Product('banana', '.jpg');
@@ -38,34 +42,37 @@ new Product('usb', '.gif');
 new Product('water-can', '.jpg');
 new Product('wine-glass', '.jpg');
 
+
 function helpsGenerateThreeRandomNumbers() {
+  var newArrayOfRandomNumbers = [];
   for (var i = 0; i < 3; i++) {
-    arrayOfRandomlyGeneratedNumbers.push(
-      genratesARandomNumber(0, Product.arrayOfProductInstances.length)
-    );
+    newArrayOfRandomNumbers.push(generatesARandomNumber(0, Product.arrayOfProductInstances.length));
   }
-  while (
-    arrayOfRandomlyGeneratedNumbers[1] === arrayOfRandomlyGeneratedNumbers[0]
-  ) {
-    arrayOfRandomlyGeneratedNumbers[1] = genratesARandomNumber(
-      0,
-      Product.arrayOfProductInstances.length
-    );
+  while (arrayOfRandomlyGeneratedNumbers.includes(newArrayOfRandomNumbers[0]))
+  {
+    newArrayOfRandomNumbers[0] = generatesARandomNumber(0, Product.arrayOfProductInstances.length);
   }
-  while (
-    arrayOfRandomlyGeneratedNumbers[2] === arrayOfRandomlyGeneratedNumbers[1] ||
-    arrayOfRandomlyGeneratedNumbers[2] === arrayOfRandomlyGeneratedNumbers[0]
-  ) {
-    arrayOfRandomlyGeneratedNumbers[2] = genratesARandomNumber(
-      0,
-      Product.arrayOfProductInstances.length
-    );
+  while (arrayOfRandomlyGeneratedNumbers.includes(newArrayOfRandomNumbers[1]) ||
+    newArrayOfRandomNumbers[1] === newArrayOfRandomNumbers[0])
+  {
+    newArrayOfRandomNumbers[1] = generatesARandomNumber(0,Product.arrayOfProductInstances.length);
   }
+  while (arrayOfRandomlyGeneratedNumbers.includes(newArrayOfRandomNumbers[2]) ||
+    newArrayOfRandomNumbers[2] === newArrayOfRandomNumbers[1] ||
+    newArrayOfRandomNumbers[2] === newArrayOfRandomNumbers[0])
+  {
+    newArrayOfRandomNumbers[2] = generatesARandomNumber(0, Product.arrayOfProductInstances.length);
+  }
+  arrayOfRandomlyGeneratedNumbers = newArrayOfRandomNumbers;
 }
+
 
 var firstRenderedImage = document.getElementById('imageFirst');
 var secondRenderedImage = document.getElementById('imageSecond');
 var thirdRenderedImage = document.getElementById('imageThird');
+var sideBar = document.getElementById('sidebar');
+
+
 function displayThreeRandomlyGeneratedImages() {
   var imagesToBeRenderedArray = [
     firstRenderedImage,
@@ -74,17 +81,10 @@ function displayThreeRandomlyGeneratedImages() {
   ];
   helpsGenerateThreeRandomNumbers();
   imagesToBeRenderedArray.forEach(function(image, index) {
-    image.src =
-      Product.arrayOfProductInstances[
-        arrayOfRandomlyGeneratedNumbers[index]
-      ].path;
-    image.id =
-      Product.arrayOfProductInstances[
-        arrayOfRandomlyGeneratedNumbers[index]
-      ].productName;
+    image.src = Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].path;
+    image.id = Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].productName;
     Product.arrayOfProductInstances[arrayOfRandomlyGeneratedNumbers[index]].numberOfTimesImageIsDisplayed++;
   });
-  arrayOfRandomlyGeneratedNumbers = [];
 }
 
 function handlesImageClicksByUser(event) {
@@ -97,11 +97,28 @@ function handlesImageClicksByUser(event) {
   if (numberOfClicks < 25) {
     displayThreeRandomlyGeneratedImages();
   } else if (numberOfClicks === 25) {
+    localStorage.setItem('userClickData', JSON.stringify(Product.arrayOfProductInstances));
     document.getElementById('displayed-images').style.display = 'none';
     document.getElementById('show-chart').style.display = 'flex';
-    document.getElementById('ten-more').style.display = 'flex';
-    document.getElementById('lcClear').style.display = 'flex';
+    document.getElementById('clear-localstorage').style.display = 'flex';
   }
+}
+
+function displaysTheResultList() {
+  sideBar.style.display = 'flex';
+  clickEventForChartToBeShown.style.display = 'none';
+  var resultsTable = document.getElementById('results');
+  var sideBarDiv = document.getElementById('borderleft');
+  for(var i = 0; i < Product.arrayOfProductInstances.length; i++){
+    var product = Product.arrayOfProductInstances[i];
+    var createTrTags = document.createElement('tr');
+    var createTdTags = document.createElement('td');
+    createTrTags.textContent = product.productName;
+    createTdTags.textContent = product.numberOfTimesImageIsDisplayed;
+    resultsTable.appendChild(createTrTags);
+    createTrTags.appendChild(createTdTags);
+  }
+  sideBarDiv.classList.add('content');
 }
 
 
@@ -109,22 +126,19 @@ function makeChart() {
   var productNames = [];
   var percents = [];
   document.getElementById('displayed-images').style.display = 'none';
-  document.getElementById('second-logo').style.display = 'flex';
   document.getElementById('cust-chart').style.display = 'flex';
-  document.getElementById('btnss').style.display = 'none';
-  document.getElementById('top').style.display = 'none';
+  
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     productNames.push(Product.arrayOfProductInstances[i].productName);
-    percents.push(
-      Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser
-    );
+    percents.push(Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser);
   }
 
+  displaysTheResultList();
   var data = {
     labels: productNames,
     datasets: [
       {
-        label: '# of Votes',
+        label: '# of participant votes',
         data: percents,
         backgroundColor: [
           'red',
@@ -153,9 +167,8 @@ function makeChart() {
     ]
   };
 
-  var chartForImagesChosenByUser = document
-    .getElementById('cust-chart')
-    .getContext('2d');
+
+  var chartForImagesChosenByUser = document.getElementById('cust-chart').getContext('2d');
   new Chart(chartForImagesChosenByUser, {
     type: 'bar',
     data: data,
@@ -169,13 +182,33 @@ function makeChart() {
 
 var clickEventForDisplayeImages = document.getElementById('displayed-images');
 clickEventForDisplayeImages.addEventListener('click', handlesImageClicksByUser);
-
 var clickEventForChartToBeShown = document.getElementById('show-chart');
 clickEventForChartToBeShown.addEventListener('click', makeChart);
 
 
+document.getElementById('cust-chart').style.display = 'none';
 document.getElementById('show-chart').style.display = 'none';
-document.getElementById('lcClear').style.display = 'none';
-document.getElementById('second-logo').style.display = 'none';
+document.getElementById('clear-localstorage').style.display = 'none';
+sideBar.style.display = 'none';
+
+
+(function checkForLocalStorage(){
+  if(localStorage.userClickData){
+    console.log('Storage Exists');
+    var parsedImages = JSON.parse(localStorage.userClickData);
+    for(var i = 0; i < Product.arrayOfProductInstances.length; i++){
+      Product.arrayOfProductInstances = parsedImages;
+    }
+  }else{
+    console.log('Storage does not exist');
+  }
+})();
+
+
+document.getElementById('clear-localstorage').addEventListener('click', function(){
+  localStorage.clear();
+  window.location.reload();
+});
+
 
 displayThreeRandomlyGeneratedImages();
