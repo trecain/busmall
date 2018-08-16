@@ -127,6 +127,7 @@ function makeChart() {
   var percents = [];
   document.getElementById('displayed-images').style.display = 'none';
   document.getElementById('cust-chart').style.display = 'flex';
+  
   for (var i = 0; i < Product.arrayOfProductInstances.length; i++) {
     productNames.push(Product.arrayOfProductInstances[i].productName);
     percents.push(Product.arrayOfProductInstances[i].numberOfTimesImageWasClickedByUser);
@@ -172,7 +173,7 @@ function makeChart() {
     type: 'bar',
     data: data,
     options: {
-      responsive: true,
+      responsive: false,
       barValueSpacing: 2
     }
   });
@@ -181,7 +182,6 @@ function makeChart() {
 
 var clickEventForDisplayeImages = document.getElementById('displayed-images');
 clickEventForDisplayeImages.addEventListener('click', handlesImageClicksByUser);
-
 var clickEventForChartToBeShown = document.getElementById('show-chart');
 clickEventForChartToBeShown.addEventListener('click', makeChart);
 
